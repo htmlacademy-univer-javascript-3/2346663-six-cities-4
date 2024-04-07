@@ -1,18 +1,22 @@
 import Card from '../card/card';
 import { OfferType } from '../../mocks/offers';
-//import { useState } from 'react';
 
 type ListOfOffersProps = {
   offers: OfferType[];
   forFavoriteList: boolean;
+  onListItemHover?: (listItemName: string) => void;
 }
 
-function ListOfOffers({offers, forFavoriteList}: ListOfOffersProps): JSX.Element {
-  /*const [state, setMarker] = useState({});*/
+function ListOfOffers({offers, forFavoriteList, onListItemHover}: ListOfOffersProps): JSX.Element {
+  const handleListItemHover = (title: string) => {
+    if (onListItemHover) {
+      onListItemHover(title);
+    }
+  };
   return (
     <div className={forFavoriteList ? 'favorites__places' : 'cities__places-list places__list tabs__content'}>
       {
-        offers.map((offer, id) => <Card forFavoriteList={forFavoriteList} offer={offers[id]} key={offer.id}/>)
+        offers.map((offer, id) => <Card onMouseEnter={handleListItemHover} forFavoriteList={forFavoriteList} offer={offers[id]} key={offer.id}/>)
       }
     </div>
   );

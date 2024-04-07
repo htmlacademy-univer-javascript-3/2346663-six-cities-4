@@ -28,15 +28,15 @@ export const offers: OfferType[] = [
     type: 'house',
     price: 522,
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: 48.85661,
-        longitude: 2.351499,
-        zoom: 13,
+        latitude: 52.37454,
+        longitude: 4.911976,
+        zoom: 12,
       },},
     location: {
-      latitude: 48.868610000000004,
-      longitude: 2.342499,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 16,
     },
     isFavorite: false,
@@ -50,16 +50,16 @@ export const offers: OfferType[] = [
     price: 829,
     previewImage: 'https://14.design.htmlacademy.pro/static/hotel/14.jpg',
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: 48.85661,
-        longitude: 2.351499,
+        latitude: 52.37454,
+        longitude: 4.911976,
         zoom: 13
       }
     },
     location: {
-      latitude: 48.858610000000006,
-      longitude: 2.330499,
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
       zoom: 16
     },
     isFavorite: false,
@@ -73,18 +73,49 @@ export const offers: OfferType[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
-        zoom: 8
+        latitude: 52.37454,
+        longitude: 4.911976,
+        zoom: 13
       }},
     location: {
       latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      longitude: 4.929309666406198,
       zoom: 8
     },
     isFavorite: false,
     isPremium: false,
     rating: 4,
     previewImage: 'https://14.design.htmlacademy.pro/static/hotel/15.jpg'
-  }
+  }, {
+    id: '2b751560-b655-4f31-8934-e80677b7729e',
+    title: 'Nice, cozy, warm big bed apartment',
+    type: 'apartment',
+    price: 405,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/16.jpg',
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.37454,
+        longitude: 4.911976,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: false,
+    rating: 4.1
+  },
 ];
+
+export const CITY = {
+  title: offers[0].city.name,
+  lat: offers[0].city.location.latitude,
+  lng: offers[0].city.location.longitude,
+  zoom: offers[0].city.location.zoom,
+};
+
+export const POINTS = offers.map((offer) => ({title: offer.title, lat: offer.location.latitude, lng: offer.location.longitude}));

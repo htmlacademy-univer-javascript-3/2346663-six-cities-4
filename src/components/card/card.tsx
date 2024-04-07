@@ -5,12 +5,19 @@ import { AppRoute } from '../../const';
 type CardProps = {
   offer: OfferType;
   forFavoriteList: boolean;
+  onMouseEnter: (title: string) => void;
 }
 
-function Card({offer, forFavoriteList}: CardProps): JSX.Element {
+function Card({offer, forFavoriteList, onMouseEnter}: CardProps): JSX.Element {
   const {id, title, type, price, rating, isPremium, isFavorite, previewImage} = offer;
+  const handleItemHover = () => {
+    onMouseEnter(title);
+  };
+  const handleItemNotHover = () => {
+    onMouseEnter('');
+  };
   return (
-    <article className={forFavoriteList ? 'favorites__card place-card' : 'cities__card place-card'}>
+    <article onMouseOver={handleItemHover} onMouseOut={handleItemNotHover} className={forFavoriteList ? 'favorites__card place-card' : 'cities__card place-card'}>
       {
         isPremium &&
         <div className="place-card__mark">
