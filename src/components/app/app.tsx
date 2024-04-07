@@ -16,32 +16,16 @@ function App({offers}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path={AppRoute.Main}
-          element={<Main offers={offers}/>}
+        <Route path={AppRoute.Main} element={<Main offers={offers}/>}></Route>
+        <Route path={AppRoute.Login} element={<Login/>}/>
+        <Route path={AppRoute.Favorites} element={
+          <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <Favorites offers={offers}/>
+          </PrivateRoute>
+        }
         />
-        <Route
-          path={AppRoute.Login}
-          element={<Login/>}
-        />
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute
-              authorizationStatus={AuthorizationStatus.Auth}
-            >
-              <Favorites offers={offers}/>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Offer}
-          element={<Offer/>}
-        />
-        <Route
-          path="*"
-          element={<NotFoundScreen/>}
-        />
+        <Route path={AppRoute.Offer} element={<Offer/>}/>
+        <Route path="*" element={<NotFoundScreen/>}/>
       </Routes>
     </BrowserRouter>
   );
