@@ -18,16 +18,17 @@ const currentCustomIcon = leaflet.icon({
 type MapProps = {
   city: CityType;
   points: PointType[];
-  selectedPoint: PointType;
+  selectedPoint?: PointType;
+  height: number;
 }
 
-function Map({city, points, selectedPoint}: MapProps) {
-  const mapRef = useRef(null); // экземпляр карты
+function Map({city, points, selectedPoint, height}: MapProps) {
+  const mapRef = useRef(null);
   const isRenderedRef = useRef(false);
   const [map, setMap] = useState<leaflet.Map | null>(null);
-  useEffect(() => { //эта функция будет срабатывать только когда изменятся...
+  useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
-      const instance = leaflet.map(mapRef.current, { //куда отрендерить карту и доп параметры
+      const instance = leaflet.map(mapRef.current, {
         center: {
           lat: city.lat,
           lng: city.lng,
@@ -36,28 +37,33 @@ function Map({city, points, selectedPoint}: MapProps) {
       });
 
       leaflet
-        .tileLayer( //подключить слой voyager
+        .tileLayer(
           'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
           {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
           },
         )
-        .addTo(instance); // к какому объекту добавить слой
+        .addTo(instance);
 
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, city]); //...эти значения
+  }, [mapRef, city]);
   useEffect(() => {
     if (map) {
+      map.eachLayer((layer) => {
+        if (layer instanceof leaflet.Marker) {
+          layer.remove();
+        }
+      });
       points.forEach((point) => {
         leaflet
-          .marker({ // первый парпаметр - координаты, второй - альтернативынй вид маркера
+          .marker({
             lat: point.lat,
             lng: point.lng,
           },
           {
-            icon: (point.title === selectedPoint.title)
+            icon: (selectedPoint && point.title === selectedPoint.title)
               ? currentCustomIcon
               : defaultCustomIcon,
           })
@@ -67,7 +73,7 @@ function Map({city, points, selectedPoint}: MapProps) {
   }, [map, points, selectedPoint]);
   return (
     <div
-      style={{height: '750px'}}
+      style={{height: `${height}px`}}
       ref={mapRef}
     >
     </div>
