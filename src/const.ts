@@ -14,3 +14,4 @@ export enum AuthorizationStatus {
 }
 
 export const Cities: City[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+export const SortOptions: string[] = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
