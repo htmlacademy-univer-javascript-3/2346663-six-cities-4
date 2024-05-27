@@ -7,12 +7,18 @@ import Offer from '../../pages/offer/offer';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import { OfferType } from '../../mocks/offers';
+import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../loader/loader';
 
 type AppProps = {
   offers: OfferType[];
 }
 
 function App({offers}: AppProps): JSX.Element {
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  if (isOffersDataLoading) {
+    return (<LoadingScreen/>);
+  }
   return (
     <BrowserRouter>
       <Routes>

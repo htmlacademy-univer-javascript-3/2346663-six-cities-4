@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { OfferType, offers } from '../mocks/offers';
-import { changeCity, setSorting } from './action';
+import { changeCity, loadOffers, setOffersDataLoadingStatus, setSorting } from './action';
 import { City } from '../types/types';
 
 export function filterOffers(city: City, offersIn: OfferType[]): OfferType[] {
@@ -20,16 +20,24 @@ export function sortOffers(sortType: string, offersIn: OfferType[]): OfferType[]
   }
 }
 
-const initialState: { cityName: City; offers: OfferType[] } = {
+const initialState: { cityName: City; offers: OfferType[]; isOffersDataLoading: boolean} = {
   cityName: 'Paris',
-  offers: offers
+  offers: offers,
+  isOffersDataLoading: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
-  builder.addCase(changeCity, (state, action) => {
-    state.cityName = action.payload;
-  });
-  builder.addCase(setSorting, (state, action) => {
-    state.offers = sortOffers(action.payload, state.offers);
-  });
+  builder
+    .addCase(changeCity, (state, action) => {
+      state.cityName = action.payload;
+    })
+    .addCase(setSorting, (state, action) => {
+      state.offers = sortOffers(action.payload, state.offers);
+    })
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
+    });
 });
