@@ -18,4 +18,6 @@ export const SortOptions: string[] = ['Popular', 'Price: low to high', 'Price: h
 
 export enum APIRoute {
   Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
 }
