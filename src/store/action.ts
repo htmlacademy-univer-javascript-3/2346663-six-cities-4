@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { City } from '../types/types';
+import { City, Comment, OfferData } from '../types/types';
 import { OfferType } from '../mocks/offers';
 import { AuthorizationStatus } from '../const';
 
@@ -13,3 +13,6 @@ export const setSorting = createAction('setSorting', (sortType: string) => ({
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 export const setError = createAction<string | null>('setError');
+export const loadOffer = createAction<OfferData>('loadOffer');
+export const loadComments = createAction<Comment[]>('loadComments');
+export const loadNearByOffers = createAction<OfferType[]>('loadNearByOffers');
