@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { OfferType } from '../../mocks/offers';
-import { AppRoute } from '../../const';
+//import { AppRoute } from '../../const';
+import { fetchOfferAction } from '../../services/api-actions';
+import { store } from '../../store';
 
 type CardProps = {
   className: string;
@@ -26,7 +28,10 @@ function Card({className, offer, forFavoriteList, onMouseEnter}: CardProps): JSX
         </div>
       }
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
-        <Link to={`/offer/:${id}`}>
+        <Link to={`/offer/:${id}`} onClick={() => {
+          store.dispatch(fetchOfferAction(id));
+        }}
+        >
           <img className="place-card__image" src={previewImage} width={forFavoriteList ? '150' : '260'} height={forFavoriteList ? '110' : '200'} alt="Place image"/>
         </Link>
       </div>
@@ -50,7 +55,11 @@ function Card({className, offer, forFavoriteList, onMouseEnter}: CardProps): JSX
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}${id}`}>{title}</Link>
+          <Link onClick={() => {
+            store.dispatch(fetchOfferAction(id));
+          }} to={`/offer/:${id}`}
+          >{title}
+          </Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

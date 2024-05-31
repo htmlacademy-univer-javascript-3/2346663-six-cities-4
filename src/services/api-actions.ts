@@ -1,10 +1,10 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../store/state';
-import { loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus } from '../store/action';
+import { loadComments, loadNearByOffers, loadOffer, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus } from '../store/action';
 import { APIRoute, AuthorizationStatus } from '../const';
 import { OfferType } from '../mocks/offers';
-import { AuthData, UserData } from '../types/types';
+import { AuthData, Comment, NewComment, OfferData, UserData } from '../types/types';
 import { dropToken, saveToken } from './token';
 import { store } from '../store';
 
@@ -73,5 +73,36 @@ export const clearErrorAction = createAsyncThunk(
       () => store.dispatch(setError(null)),
       TIMEOUT_SHOW_ERROR,
     );
+  },
+);
+
+export const fetchOfferAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOffer',
+  async (id, {dispatch, extra: api}) => {
+    dispatch(setOffersDataLoadingStatus(true));
+    const {data} = await api.get<OfferData>(`${APIRoute.Offers}/${id}`);
+    const nearByOffers = (await api.get<OfferType[]>(`${APIRoute.Offers}/${id}/nearby`)).data;
+    const comments = (await api.get<Comment[]>(`${APIRoute.Comments}/${id}`)).data;
+    dispatch(loadOffer(data));
+    dispatch(loadNearByOffers(nearByOffers));
+    dispatch(loadComments(comments));
+    dispatch(setOffersDataLoadingStatus(false));
+  },
+);
+
+export const postComment = createAsyncThunk<void, NewComment, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/comment',
+  async ({id, comment, rating}, {dispatch, extra: api}) => {
+    await api.post<NewComment>(`${APIRoute.Comments}/${id}`, {comment, rating});
+    const comments = (await api.get<Comment[]>(`${APIRoute.Comments}/${id}`)).data;
+    dispatch(loadComments(comments));
   },
 );

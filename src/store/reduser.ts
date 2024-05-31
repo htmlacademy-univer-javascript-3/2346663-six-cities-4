@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { OfferType, offers } from '../mocks/offers';
-import { changeCity, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setSorting } from './action';
-import { City } from '../types/types';
+import { changeCity, loadComments, loadNearByOffers, loadOffer, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setSorting } from './action';
+import { City, Comment, OfferData } from '../types/types';
 import { AuthorizationStatus } from '../const';
 
 export function filterOffers(city: City, offersIn: OfferType[]): OfferType[] {
@@ -27,6 +27,9 @@ type InitialState = {
   isOffersDataLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   error: string | null;
+  offer: OfferData | null;
+  comments: Comment[];
+  nearByOffers: OfferType[];
 }
 
 const initialState: InitialState = {
@@ -35,6 +38,9 @@ const initialState: InitialState = {
   isOffersDataLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
+  offer: null,
+  comments: [],
+  nearByOffers: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -56,5 +62,14 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
+    })
+    .addCase(loadOffer, (state, action) => {
+      state.offer = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(loadNearByOffers, (state, action) => {
+      state.nearByOffers = action.payload;
     });
 });
