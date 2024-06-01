@@ -1,21 +1,19 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, NameSpace } from '../../const';
 import CitiesLogo from '../../components/logos/cities-logo';
 import ReviewForm from '../../components/review-form/review-form';
 import ListOfReviews from '../../components/list-of-reviews/list-of-reviews';
-import { CITY, POINTS } from '../../mocks/offers';
 import Map from '../../components/map/map';
 import ListOfOffers from '../../components/list-of-offers/list-of-offers';
 import { useAppSelector } from '../../hooks';
-/*type OfferProps = {
-  cardCount: number;
-}*/
 
-function Offer(/*{cardCount}: OfferProps*/): JSX.Element {
-  const offer = useAppSelector((state) => state.offer);
-  const comments = useAppSelector((state) => state.comments);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const nearByOffers = useAppSelector((state) => state.nearByOffers);
+
+function Offer(): JSX.Element {
+  const offer = useAppSelector((state) => state[NameSpace.Data].offer);
+  const comments = useAppSelector((state) => state[NameSpace.Data].comments);
+  const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
+  const nearByOffers = useAppSelector((state) => state[NameSpace.Data].nearByOffers);
+  const points = nearByOffers.map((offerIn) => ({id: offerIn.id, lat: offerIn.location.latitude, lng: offerIn.location.longitude})).slice(0, 3);
   return (
     <div className="page">
       <header className="header">
@@ -141,7 +139,7 @@ function Offer(/*{cardCount}: OfferProps*/): JSX.Element {
             </div>
           </div>
           <section className="offer__map map">
-            <Map height={600} city={CITY} points={POINTS.slice(0, 3)}/>
+            <Map height={600} city={offer ? offer.city : nearByOffers[0].city} points={points}/>
           </section>
         </section>
         <div className="container">

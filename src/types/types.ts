@@ -1,5 +1,7 @@
 export type City = 'Amsterdam' | 'Paris' | 'Cologne' | 'Brussels' | 'Hamburg' | 'Dusseldorf';
 
+export type SortingType = 'Popular' | 'Price: high to low' | 'Price: low to high' | 'Top rated first';
+
 export type AuthData = {
   login: string;
   password: string;
@@ -11,19 +13,21 @@ export type UserData = {
   token: string;
 };
 
-export type OfferData = {
-  id: string;
-  title: string;
-  type: string;
-  price: number;
-  city: {
+export type CityData = {
     name: string;
     location: {
       latitude: number;
       longitude: number;
       zoom: number;
-    };
   };
+}
+
+export type OfferData = {
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  city: CityData;
   location: {
     latitude: number;
     longitude: number;

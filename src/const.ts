@@ -1,4 +1,4 @@
-import { City } from './types/types';
+import { City, SortingType } from './types/types';
 
 export enum AppRoute {
   Main = '/',
@@ -14,11 +14,17 @@ export enum AuthorizationStatus {
 }
 
 export const Cities: City[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
-export const SortOptions: string[] = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+export const SortOptions: SortingType[] = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
 
 export enum APIRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
+}
+
+export enum NameSpace {
+  Data = 'DATA',
+  Loading = 'LOADING',
+  User = 'USER',
 }

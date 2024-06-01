@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { CityType, PointType } from '../../types/map-types';
+import { PointType } from '../../types/map-types';
+import { CityData } from '../../types/types';
 
 const defaultCustomIcon = leaflet.icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
@@ -16,7 +17,7 @@ const currentCustomIcon = leaflet.icon({
 });
 
 type MapProps = {
-  city: CityType;
+  city: CityData;
   points: PointType[];
   selectedPoint?: PointType;
   height: number;
@@ -30,10 +31,10 @@ function Map({city, points, selectedPoint, height}: MapProps) {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: city.lat,
-          lng: city.lng,
+          lat: city.location.latitude,
+          lng: city.location.longitude,
         },
-        zoom: city.zoom,
+        zoom: city.location.zoom,
       });
 
       leaflet
@@ -63,7 +64,7 @@ function Map({city, points, selectedPoint, height}: MapProps) {
             lng: point.lng,
           },
           {
-            icon: (selectedPoint && point.title === selectedPoint.title)
+            icon: (selectedPoint && point.id === selectedPoint.id)
               ? currentCustomIcon
               : defaultCustomIcon,
           })

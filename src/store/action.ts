@@ -1,18 +1,14 @@
 import { createAction } from '@reduxjs/toolkit';
-import { City, Comment, OfferData } from '../types/types';
+import { City, Comment, OfferData, SortingType } from '../types/types';
 import { OfferType } from '../mocks/offers';
 import { AuthorizationStatus } from '../const';
 
-export const changeCity = createAction('changeCity', (city: City) => ({
-  payload: city,
-}));
-export const loadOffers = createAction<OfferType[]>('loadOffers');
-export const setSorting = createAction('setSorting', (sortType: string) => ({
-  payload: sortType,
-}));
+export const changeCity = createAction<City>('data/changeCity');
+export const loadOffers = createAction<OfferType[]>('loading/loadOffers');
+export const setSorting = createAction<SortingType>('data/setSorting');
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
-export const setError = createAction<string | null>('setError');
-export const loadOffer = createAction<OfferData>('loadOffer');
-export const loadComments = createAction<Comment[]>('loadComments');
-export const loadNearByOffers = createAction<OfferType[]>('loadNearByOffers');
+export const setError = createAction<string | null>('loading/setError');
+export const loadOffer = createAction<OfferData>('data/loadOffer');
+export const loadComments = createAction<Comment[]>('data/loadComments');
+export const loadNearByOffers = createAction<OfferType[]>('data/loadNearByOffers');

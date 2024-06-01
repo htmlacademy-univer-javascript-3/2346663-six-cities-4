@@ -6,13 +6,13 @@ type ListOfOffersProps = {
   className: string;
   offers: OfferType[];
   forFavoriteList: boolean;
-  onListItemHover?: (listItemName: string) => void;
+  onListItemHover?: (id: string) => void;
 }
 
 function ListOfOffers({listClassName, className, offers, forFavoriteList, onListItemHover}: ListOfOffersProps): JSX.Element {
-  const handleListItemHover = (title: string) => {
+  const handleListItemHover = (id: string) => {
     if (onListItemHover) {
-      onListItemHover(title);
+      onListItemHover(id);
     }
   };
   return (

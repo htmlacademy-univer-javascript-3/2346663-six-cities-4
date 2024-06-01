@@ -1,6 +1,6 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import Main from '../../pages/main/main';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../../const';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import Offer from '../../pages/offer/offer';
@@ -15,7 +15,7 @@ type AppProps = {
 }
 
 function App({offers}: AppProps): JSX.Element {
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const isOffersDataLoading = useAppSelector((state) => state[NameSpace.Loading].isOffersDataLoading);
   if (isOffersDataLoading) {
     return (<LoadingScreen/>);
   }
