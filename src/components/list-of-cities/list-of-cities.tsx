@@ -1,12 +1,12 @@
 import { changeCity } from '../../store/action';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Link } from 'react-router-dom';
-import { Cities } from '../../const';
+import { Cities, NameSpace } from '../../const';
 
 
 function ListOfCities(): JSX.Element {
   const dispatch = useAppDispatch();
-  const cityName = useAppSelector((state) => state.cityName);
+  const cityName = useAppSelector((state) => state[NameSpace.Data].cityName);
   const className = 'locations__item-link tabs__item';
   return (
     <div className="tabs">

@@ -8,13 +8,13 @@ type CardProps = {
   className: string;
   offer: OfferType;
   forFavoriteList: boolean;
-  onMouseEnter: (title: string) => void;
+  onMouseEnter: (id: string) => void;
 }
 
 function Card({className, offer, forFavoriteList, onMouseEnter}: CardProps): JSX.Element {
   const {id, title, type, price, rating, isPremium, isFavorite, previewImage} = offer;
   const handleItemHover = () => {
-    onMouseEnter(title);
+    onMouseEnter(id);
   };
   const handleItemNotHover = () => {
     onMouseEnter('');

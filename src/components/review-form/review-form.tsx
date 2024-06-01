@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import { store } from '../../store';
 import { postComment } from '../../services/api-actions';
 import { useAppSelector } from '../../hooks';
+import { NameSpace } from '../../const';
 
 
 function ReviewForm(): JSX.Element {
@@ -9,7 +10,7 @@ function ReviewForm(): JSX.Element {
     rating: '',
     review: '',
   });
-  const offerId = useAppSelector((state) => state.offer?.id);
+  const offerId = useAppSelector((state) => state[NameSpace.Data].offer?.id);
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const {name, value} = evt.target;
     setFormData({...formData, [name]: value});
