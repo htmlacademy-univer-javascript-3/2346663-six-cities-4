@@ -1,45 +1,28 @@
-import { Link } from 'react-router-dom';
-import { AppRoute, NameSpace } from '../../const';
-import CitiesLogo from '../../components/logos/cities-logo';
+import { NameSpace } from '../../const';
 import ReviewForm from '../../components/review-form/review-form';
 import ListOfReviews from '../../components/list-of-reviews/list-of-reviews';
 import Map from '../../components/map/map';
 import ListOfOffers from '../../components/list-of-offers/list-of-offers';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeFavorite } from '../../services/api-actions';
+import Header from '../../components/header/header';
+import { useState } from 'react';
 
 
 function Offer(): JSX.Element {
+  const dispatch = useAppDispatch();
   const offer = useAppSelector((state) => state[NameSpace.Data].offer);
   const comments = useAppSelector((state) => state[NameSpace.Data].comments);
   const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
   const nearByOffers = useAppSelector((state) => state[NameSpace.Data].nearByOffers);
   const points = nearByOffers.map((offerIn) => ({id: offerIn.id, lat: offerIn.location.latitude, lng: offerIn.location.longitude})).slice(0, 3);
+  const [favoriteStatus, setFavoriteStatus] = useState(offer?.isFavorite);
+  if (!offer) {
+    return (<div>Предложение не найдено</div>);
+  }
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <CitiesLogo/>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRoute.Login}>
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header/>
 
       <main className="page__main page__main--offer">
         <section className="offer">
@@ -68,7 +51,11 @@ function Offer(): JSX.Element {
                     offer?.title
                   }
                 </h1>
-                <button className={offer?.isFavorite ? 'offer__bookmark-button offer__bookmark-button--active button' : 'offer__bookmark-button button'} type="button">
+                <button onClick={() => {
+                  dispatch(changeFavorite({id: offer?.id, status: Number(!favoriteStatus)}));
+                  setFavoriteStatus(!favoriteStatus);
+                }} className={favoriteStatus ? 'offer__bookmark-button offer__bookmark-button--active button' : 'offer__bookmark-button button'} type="button"
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -139,7 +126,7 @@ function Offer(): JSX.Element {
             </div>
           </div>
           <section className="offer__map map">
-            <Map height={600} city={offer ? offer.city : nearByOffers[0].city} points={points}/>
+            <Map height={600} city={offer?.city} points={points}/>
           </section>
         </section>
         <div className="container">

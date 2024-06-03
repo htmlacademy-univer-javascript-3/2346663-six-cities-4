@@ -6,15 +6,10 @@ import Favorites from '../../pages/favorites/favorites';
 import Offer from '../../pages/offer/offer';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import { OfferType } from '../../mocks/offers';
 import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../loader/loader';
 
-type AppProps = {
-  offers: OfferType[];
-}
-
-function App({offers}: AppProps): JSX.Element {
+function App(): JSX.Element {
   const isOffersDataLoading = useAppSelector((state) => state[NameSpace.Loading].isOffersDataLoading);
   if (isOffersDataLoading) {
     return (<LoadingScreen/>);
@@ -26,7 +21,7 @@ function App({offers}: AppProps): JSX.Element {
         <Route path={AppRoute.Login} element={<Login/>}/>
         <Route path={AppRoute.Favorites} element={
           <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-            <Favorites offers={offers}/>
+            <Favorites/>
           </PrivateRoute>
         }
         />

@@ -1,56 +1,40 @@
-import { OfferType } from '../../mocks/offers';
 import ListOfOffers from '../../components/list-of-offers/list-of-offers';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
-import CitiesLogo from '../../components/logos/cities-logo';
+import { AppRoute, NameSpace } from '../../const';
+import Header from '../../components/header/header';
+import { useAppSelector } from '../../hooks';
 
-type FavoritesProps = {
-  offers: OfferType[];
-}
-
-function Favorites({offers}: FavoritesProps): JSX.Element {
+function Favorites(): JSX.Element {
+  const favoriteOffers = useAppSelector((state) => state[NameSpace.Data].favoriteOffers);
+  const uniqueCities: string[] = [];
+  favoriteOffers.map((offer) => {
+    if (!uniqueCities.includes(offer.city.name)) {
+      uniqueCities.push(offer.city.name);
+    }
+  });
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <CitiesLogo/>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRoute.Login}>
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header/>
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <Link className="locations__item-link" to={AppRoute.Main}>
-                      <span>Amsterdam</span>
-                    </Link>
-                  </div>
-                </div>
-                <ListOfOffers listClassName='favorites__places' className='favorites' forFavoriteList offers={offers}/>
-              </li>
+              {
+                uniqueCities.map((city) => (
+                  <li className="favorites__locations-items" key={city}>
+                    <div className="favorites__locations locations locations--current">
+                      <div className="locations__item">
+                        <Link className="locations__item-link" to={AppRoute.Main}>
+                          <span>{city}</span>
+                        </Link>
+                      </div>
+                    </div>
+                    <ListOfOffers listClassName='favorites__places' className='favorites' forFavoriteList offers={favoriteOffers.filter((offer) => offer.city.name === city)}/>
+                  </li>
+                ))
+              }
             </ul>
           </section>
         </div>

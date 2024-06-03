@@ -5,17 +5,11 @@ import { FormEvent, useRef } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
 
-/*type FavoritesProps = {
-  cardCount: number;
-}*/
 
-function Login(/*{cardCount}: FavoritesProps*/): JSX.Element {
+function Login(): JSX.Element {
+  const dispatch = useAppDispatch();
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
-  const dispatch = useAppDispatch();
-  //const navigate = useNavigate();
-
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
