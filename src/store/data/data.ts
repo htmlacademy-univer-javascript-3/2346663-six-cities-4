@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { OfferType } from '../../mocks/offers';
 import { City, Comment, OfferData, SortingType } from '../../types/types';
 import { NameSpace } from '../../const';
-import { changeCity, loadComments, loadNearByOffers, loadOffer, loadOffers, setSorting } from '../action';
+import { changeCity, loadComments, loadFavoriteOffers, loadNearByOffers, loadOffer, loadOffers, setSorting } from '../action';
 
 type Data = {
   cityName: City;
@@ -11,6 +11,7 @@ type Data = {
   comments: Comment[];
   nearByOffers: OfferType[];
   sortingType: SortingType;
+  favoriteOffers: OfferType[];
 }
 
 const initialState: Data = {
@@ -19,7 +20,8 @@ const initialState: Data = {
   offer: null,
   comments: [],
   nearByOffers: [],
-  sortingType: 'Popular'
+  sortingType: 'Popular',
+  favoriteOffers: [],
 };
 
 export const data = createSlice({
@@ -45,6 +47,9 @@ export const data = createSlice({
       })
       .addCase(setSorting, (state, action) => {
         state.sortingType = action.payload;
+      })
+      .addCase(loadFavoriteOffers, (state, action) => {
+        state.favoriteOffers = action.payload;
       });
   }
 });

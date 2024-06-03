@@ -12,3 +12,4 @@ export const setError = createAction<string | null>('loading/setError');
 export const loadOffer = createAction<OfferData>('data/loadOffer');
 export const loadComments = createAction<Comment[]>('data/loadComments');
 export const loadNearByOffers = createAction<OfferType[]>('data/loadNearByOffers');
+export const loadFavoriteOffers = createAction<OfferType[]>('data/loadFavoriteOffers');

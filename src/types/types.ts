@@ -65,3 +65,8 @@ export type NewComment = {
   comment: string;
   rating: number;
 }
+
+export type FavoriteData = {
+  id: string;
+  status: number;
+}

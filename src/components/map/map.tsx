@@ -17,7 +17,7 @@ const currentCustomIcon = leaflet.icon({
 });
 
 type MapProps = {
-  city: CityData;
+  city: CityData | undefined;
   points: PointType[];
   selectedPoint?: PointType;
   height: number;
@@ -28,7 +28,7 @@ function Map({city, points, selectedPoint, height}: MapProps) {
   const isRenderedRef = useRef(false);
   const [map, setMap] = useState<leaflet.Map | null>(null);
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current) {
+    if (mapRef.current !== null && !isRenderedRef.current && city) {
       const instance = leaflet.map(mapRef.current, {
         center: {
           lat: city.location.latitude,

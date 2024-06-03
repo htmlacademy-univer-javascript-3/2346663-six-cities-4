@@ -2,6 +2,7 @@ import { changeCity } from '../../store/action';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Link } from 'react-router-dom';
 import { Cities, NameSpace } from '../../const';
+import { fetchOffersAction } from '../../services/api-actions';
 
 
 function ListOfCities(): JSX.Element {
@@ -15,7 +16,11 @@ function ListOfCities(): JSX.Element {
           {
             Cities.map((city) => (
               <li className="locations__item" key={city}>
-                <Link className={`${className} ${(cityName === city) && 'tabs__item--active'}`} to="/" onClick={() => dispatch(changeCity(city))}>
+                <Link className={`${className} ${(cityName === city) && 'tabs__item--active'}`} to="/" onClick={() => {
+                  dispatch(changeCity(city));
+                  dispatch(fetchOffersAction());
+                }}
+                >
                   <span>{city}</span>
                 </Link>
               </li>
