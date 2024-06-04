@@ -32,7 +32,6 @@ function Main(): JSX.Element {
       </div>
     );
   }
-
   const points = offers.map((offer) => ({id: offer.id, lat: offer.location.latitude, lng: offer.location.longitude}));
   const city = offers[0].city;
 
@@ -47,7 +46,7 @@ function Main(): JSX.Element {
     }
   };
   return (
-    <div className="page page--gray page--main">
+    <div className="page page--gray page--main" data-testid="main-page">
       <Header/>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
