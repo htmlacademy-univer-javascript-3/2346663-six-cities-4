@@ -10,7 +10,7 @@ function SortingOptions(): JSX.Element {
   const [isSortingListOpen, setSortingList] = useState(false);
   return (
     <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by </span>
+      <span className="places__sorting-caption" onClick={() => setSortingList(true)}>Sort by </span>
       <span className="places__sorting-type" tabIndex={0} onClick={() => setSortingList(true)}>
         {sortingType}
         <svg className="places__sorting-arrow" width="7" height="4">
