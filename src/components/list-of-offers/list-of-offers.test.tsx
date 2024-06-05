@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { OfferType } from '../../mocks/offers';
 import ListOfOffers from '../../components/list-of-offers/list-of-offers';
 import { MemoryRouter } from 'react-router-dom';
+import { AuthorizationStatus } from '../../const';
 
 const mockStore = configureMockStore([]);
 const mockFavorites: OfferType[] = [
@@ -55,8 +56,8 @@ const mockFavorites: OfferType[] = [
   },
 ];
 describe('FavoriteList', () => {
-  it('should render loading message when isFavoritesLoading is true', () => {
-    const store = mockStore({ favorite: { isFavoritesLoading: true }, user: { authorizationStatus: 'authenticated' } });
+  it('should render list of offers', () => {
+    const store = mockStore({ USER: { authorizationStatus: AuthorizationStatus.Auth } });
 
     render(
       <Provider store={store}>
