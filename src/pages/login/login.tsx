@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, Cities } from '../../const';
 import CitiesLogo from '../../components/logos/cities-logo';
 import { FormEvent, useRef } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
+import { changeCity } from '../../store/action';
 
 
 function Login(): JSX.Element {
+  const randomCity = Cities[Math.floor(Math.random() * Cities.length)];
   const dispatch = useAppDispatch();
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -48,8 +50,8 @@ function Login(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Main}>
-                <span>Amsterdam</span>
+              <Link className="locations__item-link" to={AppRoute.Main} onClick={() => dispatch(changeCity(randomCity))}>
+                <span>{randomCity}</span>
               </Link>
             </div>
           </section>

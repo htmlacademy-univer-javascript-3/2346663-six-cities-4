@@ -1,9 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { OfferType } from '../../mocks/offers';
 //import { AppRoute } from '../../const';
 import { changeFavorite, fetchOfferAction } from '../../services/api-actions';
 import { store } from '../../store';
 import { useState } from 'react';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../../const';
+import { useAppSelector } from '../../hooks';
 
 type CardProps = {
   className: string;
@@ -13,6 +15,8 @@ type CardProps = {
 }
 
 function Card({className, offer, forFavoriteList, onMouseEnter}: CardProps): JSX.Element {
+  const navigate = useNavigate();
+  const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
   const {id, title, type, price, rating, isPremium, isFavorite, previewImage} = offer;
   const [favoriteStatus, setFavoriteStatus] = useState(isFavorite);
   const handleItemHover = () => {
@@ -44,9 +48,13 @@ function Card({className, offer, forFavoriteList, onMouseEnter}: CardProps): JSX
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button onClick={() => {
-            store.dispatch(changeFavorite({id: id, status: Number(!favoriteStatus)}));
-            setFavoriteStatus(!favoriteStatus);
-          }} className={favoriteStatus ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button'} type="button"
+            if (authorizationStatus === AuthorizationStatus.Auth) {
+              store.dispatch(changeFavorite({id: id, status: Number(!favoriteStatus)}));
+              setFavoriteStatus(!favoriteStatus);
+            } else {
+              navigate(AppRoute.Login);
+            }
+          }} className={(favoriteStatus && (authorizationStatus === AuthorizationStatus.Auth)) ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button'} type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

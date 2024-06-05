@@ -1,3 +1,4 @@
+import { Months } from '../../const';
 import { ReviewType } from '../../mocks/reviews';
 
 type ReviewProps = {
@@ -6,6 +7,8 @@ type ReviewProps = {
 
 function Review({review}: ReviewProps): JSX.Element {
   const {user, rating, comment, date} = review;
+  const year = date.slice(0, 4);
+  const month = Months[Number(date.slice(5, 7))];
   const {name, avatarUrl} = user;
   return (
     <li className="reviews__item">
@@ -27,7 +30,7 @@ function Review({review}: ReviewProps): JSX.Element {
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">{date}</time>
+        <time className="reviews__time" dateTime={date}>{month} {year}</time>
       </div>
     </li>
   );

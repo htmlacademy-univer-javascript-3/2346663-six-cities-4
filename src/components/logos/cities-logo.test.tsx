@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import CitiesLogo from './cities-logo';
-import { withHistory } from './mock-component';
+import { withHistory } from '../history-route/mock-component';
 
 
 describe('Component: Logo', () => {

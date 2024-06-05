@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import NotFoundScreen from './not-found-screen';
-import { withHistory } from '../../components/logos/mock-component';
+import { withHistory } from '../../components/history-route/mock-component';
 
 describe('Component: NotFoundScreen', () => {
   it('should render correctly', () => {

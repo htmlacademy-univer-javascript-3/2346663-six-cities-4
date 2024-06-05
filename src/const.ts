@@ -15,6 +15,7 @@ export enum AuthorizationStatus {
 
 export const Cities: City[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 export const SortOptions: SortingType[] = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+export const Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 export enum APIRoute {
   Offers = '/offers',

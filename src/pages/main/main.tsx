@@ -7,7 +7,7 @@ import SortingOptions from '../../components/sorting-options/sorting-options';
 import { filterOffers, sortOffers } from '../../utils';
 import ListOfOffers from '../../components/list-of-offers/list-of-offers';
 import Header from '../../components/header/header';
-import MainEmpty from './empty';
+import MainEmpty from './main-empty';
 
 
 function Main(): JSX.Element {
