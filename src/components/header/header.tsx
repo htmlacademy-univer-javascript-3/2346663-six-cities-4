@@ -5,6 +5,7 @@ import { store } from '../../store';
 import { fetchFavoriteOffers, fetchOffersAction, logoutAction } from '../../services/api-actions';
 
 function Header(): JSX.Element {
+  const mail = useAppSelector((state) => state[NameSpace.User].userData?.email);
   const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
   const favoriteOffers = useAppSelector((state) => state[NameSpace.Data].favoriteOffers);
   if (authorizationStatus === AuthorizationStatus.Auth) {
@@ -29,7 +30,7 @@ function Header(): JSX.Element {
                   >
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    <span className="header__user-name user__name">{mail}</span>
                     <span className="header__favorite-count">{favoriteOffers.length}</span>
                   </Link>
                 </li>

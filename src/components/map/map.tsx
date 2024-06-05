@@ -21,9 +21,10 @@ type MapProps = {
   points: PointType[];
   selectedPoint?: PointType;
   height: number;
+  currentOffer?: string;
 }
 
-function Map({city, points, selectedPoint, height}: MapProps) {
+function Map({city, points, selectedPoint, height, currentOffer}: MapProps) {
   const mapRef = useRef(null);
   const isRenderedRef = useRef(false);
   const [map, setMap] = useState<leaflet.Map | null>(null);
@@ -64,14 +65,14 @@ function Map({city, points, selectedPoint, height}: MapProps) {
             lng: point.lng,
           },
           {
-            icon: (selectedPoint && point.id === selectedPoint.id)
+            icon: ((selectedPoint && point.id === selectedPoint.id) || (currentOffer === point.id))
               ? currentCustomIcon
               : defaultCustomIcon,
           })
           .addTo(map);
       });
     }
-  }, [map, points, selectedPoint]);
+  }, [map, points, selectedPoint, currentOffer]);
   return (
     <div
       style={{height: `${height}px`}}

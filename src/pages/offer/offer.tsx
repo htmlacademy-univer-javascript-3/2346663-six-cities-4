@@ -1,4 +1,4 @@
-import { NameSpace } from '../../const';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../../const';
 import ReviewForm from '../../components/review-form/review-form';
 import ListOfReviews from '../../components/list-of-reviews/list-of-reviews';
 import Map from '../../components/map/map';
@@ -7,19 +7,22 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavorite } from '../../services/api-actions';
 import Header from '../../components/header/header';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 function Offer(): JSX.Element {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const offer = useAppSelector((state) => state[NameSpace.Data].offer);
   const comments = useAppSelector((state) => state[NameSpace.Data].comments);
   const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
   const nearByOffers = useAppSelector((state) => state[NameSpace.Data].nearByOffers);
-  const points = nearByOffers.map((offerIn) => ({id: offerIn.id, lat: offerIn.location.latitude, lng: offerIn.location.longitude})).slice(0, 3);
+  const nearOffers = nearByOffers.map((offerIn) => ({id: offerIn.id, lat: offerIn.location.latitude, lng: offerIn.location.longitude})).slice(0, 3);
   const [favoriteStatus, setFavoriteStatus] = useState(offer?.isFavorite);
   if (!offer) {
     return (<div>Предложение не найдено</div>);
   }
+  const points = nearOffers.concat({id: offer.id, lat: offer.location.latitude, lng: offer.location.longitude});
   return (
     <div className="page">
       <Header/>
@@ -52,9 +55,13 @@ function Offer(): JSX.Element {
                   }
                 </h1>
                 <button onClick={() => {
-                  dispatch(changeFavorite({id: offer?.id, status: Number(!favoriteStatus)}));
-                  setFavoriteStatus(!favoriteStatus);
-                }} className={favoriteStatus ? 'offer__bookmark-button offer__bookmark-button--active button' : 'offer__bookmark-button button'} type="button"
+                  if (authorizationStatus === AuthorizationStatus.Auth) {
+                    dispatch(changeFavorite({id: offer?.id, status: Number(!favoriteStatus)}));
+                    setFavoriteStatus(!favoriteStatus);
+                  } else {
+                    navigate(AppRoute.Login);
+                  }
+                }} className={(favoriteStatus && (authorizationStatus === AuthorizationStatus.Auth)) ? 'offer__bookmark-button offer__bookmark-button--active button' : 'offer__bookmark-button button'} type="button"
                 >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -126,7 +133,7 @@ function Offer(): JSX.Element {
             </div>
           </div>
           <section className="offer__map map">
-            <Map height={600} city={offer?.city} points={points}/>
+            <Map height={600} city={offer?.city} currentOffer={offer.id} points={(points) ? points : nearOffers}/>
           </section>
         </section>
         <div className="container">

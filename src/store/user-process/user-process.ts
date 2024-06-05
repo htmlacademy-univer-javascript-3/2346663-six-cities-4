@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus, NameSpace } from '../../const';
 import { UserData } from '../../types/types';
-import { requireAuthorization } from '../action';
+import { loadUserData, requireAuthorization } from '../action';
 
 
 type UserProcess = {
@@ -20,6 +20,9 @@ export const userProcess = createSlice({
     builder
       .addCase(requireAuthorization, (state, action) => {
         state.authorizationStatus = action.payload;
+      })
+      .addCase(loadUserData, (state, action) => {
+        state.userData = action.payload;
       });
   }
 });

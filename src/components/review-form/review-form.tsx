@@ -59,7 +59,7 @@ function ReviewForm(): JSX.Element {
         <p className="reviews__help">
                       To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={formData.review.length < 50 || ![1, 2, 3, 4, 5].includes(Number(formData.rating))} onClick={(evt) => {
+        <button className="reviews__submit form__submit button" type="submit" disabled={formData.review.length > 300 || formData.review.length < 50 || ![1, 2, 3, 4, 5].includes(Number(formData.rating))} onClick={(evt) => {
           evt.preventDefault();
           store.dispatch(postComment({id: offerId ? offerId : '', comment: formData.review, rating: Number(formData.rating)}));
           formData.review = '';

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { OfferType } from '../../mocks/offers';
 import { MemoryRouter } from 'react-router-dom';
 import Card from './card';
+import { AuthorizationStatus } from '../../const';
 
 const mockStore = configureMockStore([]);
 const mockFavorites: OfferType[] = [
@@ -55,8 +56,8 @@ const mockFavorites: OfferType[] = [
   },
 ];
 describe('Card', () => {
+  const store = mockStore({ USER: { authorizationStatus: AuthorizationStatus.Auth } });
   it('should render card', () => {
-    const store = mockStore({ favorite: { isFavoritesLoading: true }, user: { authorizationStatus: 'authenticated' } });
 
     render(
       <Provider store={store}>
@@ -72,7 +73,6 @@ describe('Card', () => {
   });
 
   it('should render card', () => {
-    const store = mockStore({ favorite: { isFavoritesLoading: true }, user: { authorizationStatus: 'authenticated' } });
 
     render(
       <Provider store={store}>
