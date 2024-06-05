@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { OfferType } from '../../mocks/offers';
-//import { AppRoute } from '../../const';
 import { changeFavorite, fetchOfferAction } from '../../services/api-actions';
 import { store } from '../../store';
 import { useState } from 'react';
